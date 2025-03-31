@@ -1,4 +1,4 @@
-```markdown
+````markdown
 # ⚡ Vite + React + TypeScript + Tailwind CSS Starter
 
 This is a modern frontend starter template using **Vite**, **React**, **TypeScript**, **Tailwind CSS**, **ESLint**, and **Prettier** — all pre-configured and ready to go.
@@ -7,13 +7,13 @@ This is a modern frontend starter template using **Vite**, **React**, **TypeScri
 
 ## 🚀 Features
 
-- **⚡ Vite** – Lightning-fast bundler and dev server  
-- **⚛️ React 19** – Modern UI library with concurrent features  
-- **📘 TypeScript** – Static typing for scalable code  
-- **🎨 Tailwind CSS** – Utility-first styling framework  
-- **🧹 ESLint** – Linting with support for TypeScript and React  
-- **💅 Prettier** – Code formatting with sensible defaults  
-- **🔥 React Refresh** – Fast refresh support during development  
+- **⚡ Vite** – Lightning-fast bundler and dev server
+- **⚛️ React 19** – Modern UI library with concurrent features
+- **📘 TypeScript** – Static typing for scalable code
+- **🎨 Tailwind CSS** – Utility-first styling framework
+- **🧹 ESLint** – Linting with support for TypeScript and React
+- **💅 Prettier** – Code formatting with sensible defaults
+- **🔥 React Refresh** – Fast refresh support during development
 
 ---
 
@@ -26,18 +26,19 @@ git clone https://github.com/your-username/your-repo.git
 cd your-repo
 npm install
 ```
+````
 
 ---
 
 ## 🛠️ Scripts
 
-| Command            | Description                          |
-| ------------------ | ------------------------------------ |
-| `npm run dev`      | Start the Vite development server    |
-| `npm run build`    | Build the project for production     |
-| `npm run preview`  | Preview the production build         |
-| `npm run lint`     | Lint the codebase with ESLint        |
-| `npm run format`   | Format code using Prettier           |
+| Command           | Description                       |
+| ----------------- | --------------------------------- |
+| `npm run dev`     | Start the Vite development server |
+| `npm run build`   | Build the project for production  |
+| `npm run preview` | Preview the production build      |
+| `npm run lint`    | Lint the codebase with ESLint     |
+| `npm run format`  | Format code using Prettier        |
 
 ---
 
@@ -61,7 +62,7 @@ npm install
 
 ## 💄 Styling with Tailwind
 
-Tailwind is fully set up and ready. 
+Tailwind is fully set up and ready.
 
 ---
 
@@ -70,10 +71,10 @@ Tailwind is fully set up and ready.
 ### ESLint
 
 - Configured with:
-    - `@eslint/js`
-    - `@typescript-eslint`
-    - `eslint-plugin-react-hooks`
-    - `eslint-plugin-react-refresh`
+  - `@eslint/js`
+  - `@typescript-eslint`
+  - `eslint-plugin-react-hooks`
+  - `eslint-plugin-react-refresh`
 
 ### Prettier
 
