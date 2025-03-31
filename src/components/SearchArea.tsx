@@ -13,15 +13,15 @@ interface SearchAreaProps {
   onVideoSelect: (video: YouTubeVideo) => void;
 }
 
-const SearchArea = ({
-                      videos,
-                      setVideos,
-                      error,
-                      setError,
-                      isLoading,
-                      setIsLoading,
-                      onVideoSelect,
-                    }: SearchAreaProps) => {
+export default function SearchArea({
+                                     videos,
+                                     setVideos,
+                                     error,
+                                     setError,
+                                     isLoading,
+                                     setIsLoading,
+                                     onVideoSelect,
+                                   }: SearchAreaProps) {
   const handleSearch = async (query: string) => {
     try {
       setError(null);
@@ -66,6 +66,4 @@ const SearchArea = ({
       </Card>
     </div>
   );
-};
-
-export default SearchArea;
+}

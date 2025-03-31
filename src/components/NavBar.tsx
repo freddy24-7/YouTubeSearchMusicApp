@@ -257,45 +257,69 @@ export function NavBar({
         </div>
 
         {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              <div className="flex flex-col space-y-4">
-                <NavItems />
-                {playlist.length > 0 && (
-                  <button
-                    onClick={onShuffleToggle}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isShuffleEnabled
-                        ? theme === 'dark'
-                          ? 'bg-purple-900 text-purple-200 hover:bg-purple-800'
-                          : 'bg-purple-100 text-purple-800 hover:bg-purple-200'
-                        : theme === 'dark'
-                          ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
-                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    }`}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                      />
-                    </svg>
-                    <span>{isShuffleEnabled ? 'Shuffle On' : 'Shuffle Off'}</span>
-                  </button>
-                )}
-              </div>
-            </div>
+        <div
+          className={`md:hidden fixed top-0 left-0 w-full bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+          } z-50`}
+        >
+          <div className="px-4 py-3 flex justify-between items-center border-b dark:border-gray-700">
+            <h2 className="text-lg font-semibold">Menu</h2>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-        )}
+          <nav className="px-4 py-2">
+            <button
+              onClick={() => {
+                onHomeClick();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 rounded-lg"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => {
+                onPlaylistClick();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 rounded-lg"
+            >
+              Playlist
+            </button>
+            <button
+              onClick={() => {
+                onEditListClick();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 rounded-lg"
+            >
+              Edit List
+            </button>
+            <button
+              onClick={() => {
+                onInfoClick();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 rounded-lg"
+            >
+              Info
+            </button>
+          </nav>
+        </div>
       </div>
     </nav>
   );
