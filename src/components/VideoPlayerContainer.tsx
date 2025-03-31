@@ -14,16 +14,16 @@ interface VideoPlayerContainerProps {
   currentView: 'search' | 'playlist' | 'editList' | 'info';
 }
 
-const VideoPlayerContainer = ({
-                                video,
-                                playlist,
-                                currentPlaylistIndex,
-                                setCurrentPlaylistIndex,
-                                setSelectedVideo,
-                                setIsPlaying,
-                                isShuffleEnabled,
-                                currentView,
-                              }: VideoPlayerContainerProps) => {
+export default function VideoPlayerContainer({
+                                               video,
+                                               playlist,
+                                               currentPlaylistIndex,
+                                               setCurrentPlaylistIndex,
+                                               setSelectedVideo,
+                                               setIsPlaying,
+                                               isShuffleEnabled,
+                                               currentView,
+                                             }: VideoPlayerContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ width: '100%', height: 'auto' });
@@ -106,34 +106,33 @@ const VideoPlayerContainer = ({
     }
   };
 
-  const videoContent = (
-    <VideoPlayer video={video} onEnded={handleVideoEnd} />
-  );
-
   return (
-    <div className="h-[calc(100vh-6rem)] flex items-center justify-center py-8 sm:py-0">
+    <div
+      className="h-[calc(100vh-6rem)] flex items-center justify-center py-8 sm:py-0"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div
-        ref={containerRef}
-        className="max-w-4xl w-full relative touch-none"
+        className="relative w-[95vw] sm:w-[800px] h-[calc(95vw*9/16)] sm:h-[450px]"
         style={{
-          transform: `translate(${position.x}px, ${position.y}px)`,
-          touchAction: 'none'
+          transform: `translate(${position.x}px, ${position.y}px) scale(${size})`,
+          touchAction: 'none',
         }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
-        <div className="md:hidden">
-          {videoContent}
-        </div>
-        <div className="hidden md:block">
-          <Card style={{ width: size.width, height: size.height }}>
-            {videoContent}
-          </Card>
-        </div>
+        <Card
+          className="h-full"
+          style={{
+            transform: 'none',
+            touchAction: 'none',
+          }}
+        >
+          <VideoPlayer
+            video={video}
+            onEnded={handleVideoEnd}
+          />
+        </Card>
       </div>
     </div>
   );
-};
-
-export default VideoPlayerContainer;
+}
