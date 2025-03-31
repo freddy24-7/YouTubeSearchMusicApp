@@ -3,9 +3,9 @@ import { Card } from './Card.tsx'
 function App() {
     return (
         <main className="min-h-screen bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 flex items-center justify-center font-sans">
-            <Card>
+            <Card className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <h1 className="text-4xl font-bold text-blue-400 drop-shadow mb-4">
-                    Vite + React + TypeScript
+                    Vite + React + TypeScript + Tailwind
                 </h1>
 
                 <p className="text-lg text-gray-700 mb-4">
@@ -33,7 +33,7 @@ function App() {
                 <p className="text-sm text-gray-600 mb-4">
                     Edit{' '}
                     <code className="bg-gray-300 text-gray-900 px-1 py-0.5 rounded">
-                        src/App.tsx
+                        src/App.tsx and src/Card.tsx
                     </code>{' '}
                     to get started!
                 </p>
