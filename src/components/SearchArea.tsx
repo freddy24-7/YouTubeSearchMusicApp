@@ -44,23 +44,13 @@ export default function SearchArea({
         <h1 className="text-3xl sm:text-4xl font-bold drop-shadow mb-4 sm:mb-6 text-center text-blue-600">
           Make or Change your Playlist
         </h1>
-
-        {/* Show on medium screens and up */}
-        <div className="hidden sm:block">
-          <SearchBar onSearch={handleSearch} />
-        </div>
-
+        <SearchBar onSearch={handleSearch} />
         {error && (
           <div className="mt-4 p-3 sm:p-4 rounded-lg bg-red-100 text-red-700 text-sm sm:text-base">
             {error}
           </div>
         )}
       </Card>
-
-      {/* Show only on small screens */}
-      <div className="block sm:hidden mb-4">
-        <SearchBar onSearch={handleSearch} />
-      </div>
 
       <Card>
         <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">
