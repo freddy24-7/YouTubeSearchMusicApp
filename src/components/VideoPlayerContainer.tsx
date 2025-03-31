@@ -106,6 +106,10 @@ const VideoPlayerContainer = ({
     }
   };
 
+  const videoContent = (
+    <VideoPlayer video={video} onEnded={handleVideoEnd} />
+  );
+
   return (
     <div className="h-[calc(100vh-6rem)] flex items-center justify-center">
       <div
@@ -119,11 +123,14 @@ const VideoPlayerContainer = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <Card
-          style={{ width: size.width, height: size.height }}
-        >
-          <VideoPlayer video={video} onEnded={handleVideoEnd} />
-        </Card>
+        <div className="md:hidden">
+          {videoContent}
+        </div>
+        <div className="hidden md:block">
+          <Card style={{ width: size.width, height: size.height }}>
+            {videoContent}
+          </Card>
+        </div>
       </div>
     </div>
   );
