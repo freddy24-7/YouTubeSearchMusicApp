@@ -113,7 +113,7 @@ export default function VideoPlayerContainer({
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className="relative w-[60vw] sm:w-[800px] h-[calc(60vw*9/16)] sm:h-[450px]"
+        className="relative w-[70vw] sm:w-[800px] h-[calc(70vw*9/16)] sm:h-[450px]"
         style={{
           transform: `translate(${position.x}px, ${position.y}px) scale(${size})`,
           touchAction: 'none',
