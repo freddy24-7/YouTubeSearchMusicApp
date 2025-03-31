@@ -1,54 +1,77 @@
-import { Card } from './Card.tsx'
+import { useState } from 'react';
+import { Card } from './Card';
+import { SearchBar } from './components/SearchBar';
+import { VideoPlayer } from './components/VideoPlayer';
+import { SearchResults } from './components/SearchResults';
+import { YouTubeVideo, searchVideos } from './services/youtubeApi';
 
 function App() {
+    const [videos, setVideos] = useState<YouTubeVideo[]>([]);
+    const [selectedVideo, setSelectedVideo] = useState<YouTubeVideo | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleSearch = async (query: string) => {
+        try {
+            setError(null);
+            setIsLoading(true);
+            const results = await searchVideos(query);
+            setVideos(results);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'An error occurred while searching');
+            setVideos([]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleVideoSelect = (video: YouTubeVideo) => {
+        setSelectedVideo(video);
+    };
+
     return (
-        <main className="min-h-screen bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 flex items-center justify-center font-sans">
-            <Card className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <h1 className="text-4xl font-bold text-blue-400 drop-shadow mb-4">
-                    Vite + React + TypeScript + Tailwind
-                </h1>
+        <main className="min-h-screen bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 p-8">
+            <div className="max-w-6xl mx-auto">
+                <Card className="mb-8">
+                    <h1 className="text-4xl font-bold text-blue-400 drop-shadow mb-6 text-center">
+                        YouTube Song Search
+                    </h1>
+                    <SearchBar onSearch={handleSearch} />
+                    {error && (
+                        <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
+                            {error}
+                        </div>
+                    )}
+                </Card>
 
-                <p className="text-lg text-gray-700 mb-4">
-                    🚀 A modern starter template bundled with everything you need:
-                </p>
-
-                <ul className="list-disc list-inside space-y-2 text-left text-gray-700 mb-6">
-                    <li>
-                        <span className="font-semibold text-blue-300">Vite</span> – Lightning-fast dev build tool
-                    </li>
-                    <li>
-                        <span className="font-semibold text-blue-300">React 19</span> – Modern concurrent UI library
-                    </li>
-                    <li>
-                        <span className="font-semibold text-blue-300">TypeScript</span> – Type-safe development
-                    </li>
-                    <li>
-                        <span className="font-semibold text-blue-300">Tailwind CSS</span> – Utility-first styling
-                    </li>
-                    <li>
-                        <span className="font-semibold text-blue-300">ESLint + Prettier</span> – Code quality tools
-                    </li>
-                </ul>
-
-                <p className="text-sm text-gray-600 mb-4">
-                    Edit{' '}
-                    <code className="bg-gray-300 text-gray-900 px-1 py-0.5 rounded">
-                        src/App.tsx and src/Card.tsx
-                    </code>{' '}
-                    to get started!
-                </p>
-
-                <a
-                    href="https://vitejs.dev"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition"
-                >
-                    Learn More about Vite
-                </a>
-            </Card>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2">
+                        <Card>
+                            <VideoPlayer video={selectedVideo} />
+                        </Card>
+                    </div>
+                    <div className="lg:col-span-1">
+                        <Card>
+                            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                                Search Results
+                            </h2>
+                            {isLoading ? (
+                                <div className="text-center py-8">
+                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+                                </div>
+                            ) : (
+                                <SearchResults
+                                    videos={videos}
+                                    onVideoSelect={handleVideoSelect}
+                                    selectedVideoId={selectedVideo?.id.videoId || null}
+                                />
+                            )}
+                        </Card>
+                    </div>
+                </div>
+            </div>
         </main>
-    )
+    );
 }
 
-export default App
+export default App;
