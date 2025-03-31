@@ -5,9 +5,17 @@ interface NavBarProps {
     onHomeClick: () => void;
     onPlaylistClick: () => void;
     onEditListClick: () => void;
+    isShuffleEnabled: boolean;
+    onShuffleToggle: () => void;
 }
 
-export function NavBar({ onHomeClick, onPlaylistClick, onEditListClick }: NavBarProps) {
+export function NavBar({ 
+    onHomeClick, 
+    onPlaylistClick, 
+    onEditListClick,
+    isShuffleEnabled,
+    onShuffleToggle 
+}: NavBarProps) {
     const { theme, toggleTheme } = useTheme();
     const { playlist } = usePlaylist();
 
@@ -57,21 +65,15 @@ export function NavBar({ onHomeClick, onPlaylistClick, onEditListClick }: NavBar
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                                />
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
                                 />
                             </svg>
-                            <span className="font-semibold">Play List ({playlist.length})</span>
+                            <span className="font-semibold">Play List</span>
                         </button>
                         <button
                             onClick={onEditListClick}
                             className={`flex items-center gap-2 transition-colors ${
-                                theme === 'dark' ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'
+                                theme === 'dark' ? 'text-yellow-400 hover:text-yellow-300' : 'text-yellow-600 hover:text-yellow-500'
                             }`}
                         >
                             <svg
@@ -91,46 +93,78 @@ export function NavBar({ onHomeClick, onPlaylistClick, onEditListClick }: NavBar
                             <span className="font-semibold">Edit List</span>
                         </button>
                     </div>
-                    <button
-                        onClick={toggleTheme}
-                        className={`p-2 rounded-lg transition-colors ${
-                            theme === 'dark' 
-                                ? 'text-yellow-400 hover:bg-gray-700' 
-                                : 'text-gray-600 hover:bg-gray-100'
-                        }`}
-                    >
-                        {theme === 'dark' ? (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
+                    <div className="flex items-center gap-4">
+                        {playlist.length > 0 && (
+                            <button
+                                onClick={onShuffleToggle}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                                    isShuffleEnabled
+                                        ? theme === 'dark'
+                                            ? 'bg-purple-900 text-purple-200 hover:bg-purple-800'
+                                            : 'bg-purple-100 text-purple-800 hover:bg-purple-200'
+                                        : theme === 'dark'
+                                            ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                                }`}
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                                />
-                            </svg>
-                        ) : (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                                />
-                            </svg>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                                    />
+                                </svg>
+                                <span>{isShuffleEnabled ? 'Shuffle On' : 'Shuffle Off'}</span>
+                            </button>
                         )}
-                    </button>
+                        <button
+                            onClick={toggleTheme}
+                            className={`p-2 rounded-md transition-colors ${
+                                theme === 'dark'
+                                    ? 'text-yellow-400 hover:text-yellow-300'
+                                    : 'text-gray-600 hover:text-gray-800'
+                            }`}
+                        >
+                            {theme === 'dark' ? (
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                                    />
+                                </svg>
+                            ) : (
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                                    />
+                                </svg>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>

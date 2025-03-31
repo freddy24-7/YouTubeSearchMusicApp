@@ -20,6 +20,7 @@ function App() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentView, setCurrentView] = useState<View>('search');
     const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
+    const [isShuffleEnabled, setIsShuffleEnabled] = useState(false);
 
     const handleSearch = async (query: string) => {
         try {
@@ -46,8 +47,22 @@ function App() {
         console.log('Current playlist index:', currentPlaylistIndex);
         
         if (currentView === 'playlist' && playlist.length > 0) {
-            const nextIndex = (currentPlaylistIndex + 1) % playlist.length;
-            console.log('Next index:', nextIndex);
+            let nextIndex: number;
+            
+            if (isShuffleEnabled) {
+                // Get a random index different from the current one
+                do {
+                    nextIndex = Math.floor(Math.random() * playlist.length);
+                    console.log('Random number generated:', Math.random());
+                    console.log('Calculated next index:', nextIndex);
+                } while (playlist.length > 1 && nextIndex === currentPlaylistIndex);
+                
+                console.log('Final next index after shuffle:', nextIndex);
+            } else {
+                // Sequential playback
+                nextIndex = (currentPlaylistIndex + 1) % playlist.length;
+                console.log('Next index (sequential):', nextIndex);
+            }
             
             // Update the playlist index first
             setCurrentPlaylistIndex(nextIndex);
@@ -74,7 +89,19 @@ function App() {
     const handlePlaylistClick = () => {
         if (playlist.length > 0) {
             setCurrentView('playlist');
-            setSelectedVideo(playlist[0]);
+            let initialIndex: number;
+            
+            if (isShuffleEnabled) {
+                initialIndex = Math.floor(Math.random() * playlist.length);
+                console.log('Initial random number:', Math.random());
+                console.log('Initial playlist index (shuffle):', initialIndex);
+            } else {
+                initialIndex = 0;
+                console.log('Initial playlist index (sequential):', initialIndex);
+            }
+            
+            setCurrentPlaylistIndex(initialIndex);
+            setSelectedVideo(playlist[initialIndex]);
             setIsPlaying(true);
         }
     };
@@ -226,6 +253,8 @@ function App() {
                 onHomeClick={handleHomeClick}
                 onPlaylistClick={handlePlaylistClick}
                 onEditListClick={handleEditListClick}
+                isShuffleEnabled={isShuffleEnabled}
+                onShuffleToggle={() => setIsShuffleEnabled(!isShuffleEnabled)}
             />
             <main className={`min-h-screen p-8 pt-24 ${
                 theme === 'dark' 
