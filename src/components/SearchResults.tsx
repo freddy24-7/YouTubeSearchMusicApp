@@ -1,5 +1,7 @@
 import React from 'react';
 import { YouTubeVideo } from '../services/youtubeApi';
+import { useTheme } from '../context/ThemeContext';
+import { usePlaylist } from '../context/PlaylistContext';
 
 interface SearchResultsProps {
     videos: YouTubeVideo[];
@@ -7,52 +9,84 @@ interface SearchResultsProps {
 }
 
 export function SearchResults({ videos, onVideoSelect }: SearchResultsProps) {
+    const { theme } = useTheme();
+    const { addToPlaylist, playlist } = usePlaylist();
+
     if (videos.length === 0) {
         return (
-            <div className="text-center py-8 text-gray-500">
-                No results found. Try searching for a song!
-            </div>
+            <p className={`text-center py-8 ${
+                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+                No videos found. Try searching for something else.
+            </p>
         );
     }
 
     return (
-        <div className="grid gap-4">
+        <div className="space-y-4">
             {videos.map((video) => (
                 <div
                     key={video.id.videoId}
-                    className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+                    className={`p-4 rounded-lg cursor-pointer transition-colors ${
+                        theme === 'dark'
+                            ? 'bg-gray-800 hover:bg-gray-700'
+                            : 'bg-white hover:bg-gray-50'
+                    }`}
+                    onClick={() => onVideoSelect(video)}
                 >
-                    <img
-                        src={video.snippet.thumbnails.default.url}
-                        alt={video.snippet.title}
-                        className="w-24 h-24 object-cover rounded"
-                    />
-                    <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">
-                            {video.snippet.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 line-clamp-2">
-                            {video.snippet.description}
-                        </p>
+                    <div className="flex items-start gap-4">
+                        <img
+                            src={video.snippet.thumbnails.medium.url}
+                            alt={video.snippet.title}
+                            className="w-48 h-36 object-cover rounded"
+                        />
+                        <div className="flex-1">
+                            <h3 className={`font-semibold mb-2 ${
+                                theme === 'dark' ? 'text-white' : 'text-gray-900'
+                            }`}>
+                                {video.snippet.title}
+                            </h3>
+                            <p className={`text-sm mb-2 ${
+                                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                            }`}>
+                                {video.snippet.channelTitle}
+                            </p>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onVideoSelect(video);
+                                    }}
+                                    className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                                        theme === 'dark'
+                                            ? 'bg-blue-900 text-blue-200 hover:bg-blue-800'
+                                            : 'bg-blue-100 text-blue-800 hover:bg-blue-200'
+                                    }`}
+                                >
+                                    Play
+                                </button>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        addToPlaylist(video);
+                                    }}
+                                    className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                                        playlist.some(v => v.id.videoId === video.id.videoId)
+                                            ? theme === 'dark'
+                                                ? 'bg-green-900 text-green-200'
+                                                : 'bg-green-100 text-green-800'
+                                            : theme === 'dark'
+                                                ? 'bg-purple-900 text-purple-200 hover:bg-purple-800'
+                                                : 'bg-purple-100 text-purple-800 hover:bg-purple-200'
+                                    }`}
+                                >
+                                    {playlist.some(v => v.id.videoId === video.id.videoId)
+                                        ? 'Added to List'
+                                        : 'Add To List'}
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <button
-                        onClick={() => onVideoSelect(video)}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                                clipRule="evenodd"
-                            />
-                        </svg>
-                        Play
-                    </button>
                 </div>
             ))}
         </div>

@@ -8,10 +8,10 @@ export interface YouTubeVideo {
         title: string;
         description: string;
         thumbnails: {
-            default: {
-                url: string;
-            };
+            default: { url: string };
+            medium: { url: string };
         };
+        channelTitle: string;
     };
 }
 
