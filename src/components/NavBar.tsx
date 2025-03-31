@@ -77,6 +77,9 @@ export function NavBar({
                 />
               </svg>
               <span className="font-semibold">Play List</span>
+              <span className={`text-sm ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`}>
+                ({playlist.length})
+              </span>
             </button>
             <button
               onClick={onEditListClick}
