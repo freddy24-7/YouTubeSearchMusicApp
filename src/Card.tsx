@@ -9,17 +9,10 @@ type CardProps = {
   onTouchEnd?: () => void;
 };
 
-export function Card({
-                       children,
-                       className = '',
-                       style,
-                       onTouchStart,
-                       onTouchMove,
-                       onTouchEnd,
-                     }: CardProps) {
+export function Card({ children, className = '', style, onTouchStart, onTouchMove, onTouchEnd }: CardProps) {
   return (
     <div
-      className={`bg-gray-200 rounded-2xl shadow-2xl p-10 text-gray-900 ${className}`}
+      className={`bg-gray-200 rounded-2xl shadow-2xl p-4 sm:p-10 max-w-[95vw] sm:max-w-2xl text-gray-900 ${className}`}
       style={style}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}

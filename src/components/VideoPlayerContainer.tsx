@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
 import { Card } from '../Card';
 import { VideoPlayer } from './VideoPlayer';
 import { YouTubeVideo } from '../services/youtubeApi';
+import React, { useState, useRef } from 'react';
 
 interface VideoPlayerContainerProps {
   video: YouTubeVideo;
@@ -31,54 +31,51 @@ const VideoPlayerContainer = ({
   const [isResizing, setIsResizing] = useState(false);
   const [initialTouch, setInitialTouch] = useState({ x: 0, y: 0 });
   const [initialSize, setInitialSize] = useState({ width: 0, height: 0 });
-  const [initialDistance, setInitialDistance] = useState(0);
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling while dragging
     if (e.touches.length === 2) {
-      // Two-finger resize
       setIsResizing(true);
-      const [touch1, touch2] = [e.touches[0], e.touches[1]];
-      const distance = Math.hypot(
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const initialDistance = Math.hypot(
         touch2.clientX - touch1.clientX,
         touch2.clientY - touch1.clientY
       );
-      setInitialDistance(distance);
-
+      setInitialTouch({ x: initialDistance, y: 0 });
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
         setInitialSize({ width: rect.width, height: rect.height });
       }
     } else if (e.touches.length === 1) {
-      // One-finger drag
       setIsDragging(true);
-      setInitialTouch({
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY,
-      });
+      setInitialTouch({ x: e.touches[0].clientX, y: e.touches[0].clientY });
     }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling while dragging
     if (isResizing && e.touches.length === 2) {
-      const [touch1, touch2] = [e.touches[0], e.touches[1]];
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
       const currentDistance = Math.hypot(
         touch2.clientX - touch1.clientX,
         touch2.clientY - touch1.clientY
       );
-      const scale = currentDistance / initialDistance;
+      const scale = currentDistance / initialTouch.x;
 
       setSize({
         width: `${initialSize.width * scale}px`,
-        height: `${initialSize.height * scale}px`,
+        height: `${initialSize.height * scale}px`
       });
     } else if (isDragging && e.touches.length === 1) {
       const touch = e.touches[0];
       const deltaX = touch.clientX - initialTouch.x;
       const deltaY = touch.clientY - initialTouch.y;
 
-      setPosition((prev) => ({
+      setPosition(prev => ({
         x: prev.x + deltaX,
-        y: prev.y + deltaY,
+        y: prev.y + deltaY
       }));
 
       setInitialTouch({ x: touch.clientX, y: touch.clientY });
@@ -113,18 +110,17 @@ const VideoPlayerContainer = ({
     <div className="h-[calc(100vh-6rem)] flex items-center justify-center">
       <div
         ref={containerRef}
-        className="relative"
+        className="max-w-4xl w-full relative touch-none"
         style={{
           transform: `translate(${position.x}px, ${position.y}px)`,
-          touchAction: 'none',
+          touchAction: 'none'
         }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <Card
-          className="touch-none"
           style={{ width: size.width, height: size.height }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
           <VideoPlayer video={video} onEnded={handleVideoEnd} />
         </Card>
