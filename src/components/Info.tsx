@@ -19,11 +19,6 @@ const Info = () => {
             This application allows you to search for YouTube songs, play videos, and manage a playlist.
             Use the navigation bar to switch between searching, playing videos, and editing your playlist.
           </p>
-
-          <p className={`mt-2 text-base ${textColor}`}>
-            Enjoy a seamless experience with dynamic theming and responsive design.
-          </p>
-
           {/* New info for mobile users */}
           <p className={`mt-4 text-sm sm:text-base font-medium ${textColor}`}>
             <strong>Note for mobile users:</strong> You may need to manually unmute songs in the video player to hear them. For the best experience, hold your device horizontally (landscape mode).
