@@ -1,53 +1,52 @@
+import { Card } from './Card.tsx'
+
 function App() {
     return (
-        <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-10 text-gray-800">
-            <div className="max-w-2xl w-full text-center space-y-6">
-                <h1 className="text-4xl font-bold text-blue-600">Vite + React + TypeScript</h1>
-                <p className="text-lg text-gray-600">
+        <main className="min-h-screen bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900 flex items-center justify-center font-sans">
+            <Card>
+                <h1 className="text-4xl font-bold text-blue-400 drop-shadow mb-4">
+                    Vite + React + TypeScript
+                </h1>
+
+                <p className="text-lg text-gray-700 mb-4">
                     🚀 A modern starter template bundled with everything you need:
                 </p>
 
-                <ul className="text-left list-disc list-inside text-base space-y-2">
+                <ul className="list-disc list-inside space-y-2 text-left text-gray-700 mb-6">
                     <li>
-                        <span className="font-semibold text-blue-500">Vite</span> – Lightning-fast
-                        development build tool
+                        <span className="font-semibold text-blue-300">Vite</span> – Lightning-fast dev build tool
                     </li>
                     <li>
-                        <span className="font-semibold text-blue-500">React 19</span> – Declarative,
-                        efficient UI library
+                        <span className="font-semibold text-blue-300">React 19</span> – Modern concurrent UI library
                     </li>
                     <li>
-                        <span className="font-semibold text-blue-500">TypeScript</span> – Static typing
-                        for better DX
+                        <span className="font-semibold text-blue-300">TypeScript</span> – Type-safe development
                     </li>
                     <li>
-                        <span className="font-semibold text-blue-500">Tailwind CSS</span> – Utility-first
-                        CSS for rapid styling
+                        <span className="font-semibold text-blue-300">Tailwind CSS</span> – Utility-first styling
                     </li>
                     <li>
-                        <span className="font-semibold text-blue-500">ESLint + Prettier</span> – For code
-                        quality and formatting
+                        <span className="font-semibold text-blue-300">ESLint + Prettier</span> – Code quality tools
                     </li>
                 </ul>
 
-                <div className="pt-6">
-                    <p className="text-sm text-gray-500">
-                        Edit <code className="bg-gray-100 px-1 py-0.5 rounded">src/App.tsx</code> to get
-                        started!
-                    </p>
-                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                    Edit{' '}
+                    <code className="bg-gray-300 text-gray-900 px-1 py-0.5 rounded">
+                        src/App.tsx
+                    </code>{' '}
+                    to get started!
+                </p>
 
-                <div className="pt-6">
-                    <a
-                        href="https://vitejs.dev"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition"
-                    >
-                        Learn More about Vite
-                    </a>
-                </div>
-            </div>
+                <a
+                    href="https://vitejs.dev"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition"
+                >
+                    Learn More about Vite
+                </a>
+            </Card>
         </main>
     )
 }
