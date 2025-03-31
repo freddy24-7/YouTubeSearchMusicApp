@@ -17,7 +17,7 @@ const PlaylistEditor = ({ playlist, clearPlaylist }: PlaylistEditorProps) => {
       <Card>
         <div className="flex items-center justify-between mb-6">
           <h2
-            className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}
+            className={`text-2xl font-bold ${theme === 'dark' ? 'text-blue' : 'text-gray-900'}`}
           >
             Edit Playlist
           </h2>

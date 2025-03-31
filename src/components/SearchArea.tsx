@@ -42,7 +42,7 @@ const SearchArea = ({
     <div className="max-w-2xl mx-auto">
       <Card className="mb-8">
         <h1 className="text-4xl font-bold drop-shadow mb-6 text-center text-blue-600">
-          YouTube Song Search
+          Make or Change your Playlist
         </h1>
         <SearchBar onSearch={handleSearch} />
         {error && (
