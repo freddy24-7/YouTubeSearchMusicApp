@@ -111,7 +111,7 @@ const VideoPlayerContainer = ({
   );
 
   return (
-    <div className="h-[calc(100vh-6rem)] flex items-center justify-center">
+    <div className="h-[calc(100vh-6rem)] flex items-center justify-center py-8 sm:py-0">
       <div
         ref={containerRef}
         className="max-w-4xl w-full relative touch-none"
