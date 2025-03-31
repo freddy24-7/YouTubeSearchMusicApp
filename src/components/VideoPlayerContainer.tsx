@@ -1,7 +1,6 @@
-import { Card } from '../Card';
 import { VideoPlayer } from './VideoPlayer';
 import { YouTubeVideo } from '../services/youtubeApi';
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 interface VideoPlayerContainerProps {
   video: YouTubeVideo;
@@ -114,24 +113,16 @@ export default function VideoPlayerContainer({
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className="relative w-[85vw] sm:w-[800px] h-[calc(85vw*9/16)] sm:h-[450px]"
+        className="relative w-[75vw] sm:w-[800px] h-[calc(75vw*9/16)] sm:h-[450px]"
         style={{
           transform: `translate(${position.x}px, ${position.y}px) scale(${size})`,
           touchAction: 'none',
         }}
       >
-        <Card
-          className="h-full"
-          style={{
-            transform: 'none',
-            touchAction: 'none',
-          }}
-        >
-          <VideoPlayer
-            video={video}
-            onEnded={handleVideoEnd}
-          />
-        </Card>
+        <VideoPlayer
+          video={video}
+          onEnded={handleVideoEnd}
+        />
       </div>
     </div>
   );
