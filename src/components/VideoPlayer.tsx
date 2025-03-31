@@ -56,16 +56,18 @@ export function VideoPlayer({ video, onEnded }: VideoPlayerProps) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full pointer-events-none">
       <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
         <div className="absolute top-0 left-0 w-full h-full rounded-lg overflow-hidden">
-          <YouTube
-            videoId={video.id.videoId}
-            opts={opts}
-            onReady={onReady}
-            onEnd={onEnd}
-            className="w-full h-full"
-          />
+          <div className="pointer-events-auto">
+            <YouTube
+              videoId={video.id.videoId}
+              opts={opts}
+              onReady={onReady}
+              onEnd={onEnd}
+              className="w-full h-full"
+            />
+          </div>
         </div>
       </div>
     </div>
