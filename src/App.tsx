@@ -62,6 +62,7 @@ function App() {
         onInfoClick={handleInfoClick}
         isShuffleEnabled={isShuffleEnabled}
         onShuffleToggle={() => setIsShuffleEnabled(!isShuffleEnabled)}
+        isPlaying={isPlaying}
       />
       <main
         className={`min-h-screen p-8 pt-24 ${

@@ -9,6 +9,7 @@ interface NavBarProps {
   onInfoClick: () => void;
   isShuffleEnabled: boolean;
   onShuffleToggle: () => void;
+  isPlaying?: boolean;
 }
 
 export function NavBar({
@@ -18,6 +19,7 @@ export function NavBar({
                          onInfoClick,
                          isShuffleEnabled,
                          onShuffleToggle,
+                         isPlaying = false,
                        }: NavBarProps) {
   const { theme, toggleTheme } = useTheme();
   const { playlist } = usePlaylist();
@@ -135,10 +137,10 @@ export function NavBar({
     <nav
       className={`fixed top-0 left-0 right-0 shadow-lg z-50 ${
         theme === 'dark' ? 'bg-gray-800' : 'bg-white'
-      }`}
+      } ${isPlaying ? 'md:h-16 h-12' : 'h-16'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-full">
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4">
             <NavItems />
@@ -217,7 +219,7 @@ export function NavBar({
                 theme === 'dark'
                   ? 'text-yellow-400 hover:text-yellow-300'
                   : 'text-gray-600 hover:text-gray-800'
-              }`}
+              } ${isPlaying ? 'hidden' : ''}`}
             >
               {theme === 'dark' ? (
                 <svg
