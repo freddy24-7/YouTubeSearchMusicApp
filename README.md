@@ -1,120 +1,96 @@
-````markdown
-# ⚡ Vite + React + TypeScript + Tailwind CSS Starter
+# YouTube Music Search App
 
-This is a modern frontend starter template using **Vite**, **React**, **TypeScript**, **Tailwind CSS**, **ESLint**, and **Prettier** — all pre-configured and ready to go.
+A modern web application that allows users to search for music videos on YouTube, create playlists, and play them in a responsive video player.
 
----
+## Features
 
-## 🚀 Features
+- 🔍 Search for music videos using YouTube's API
+- 📱 Responsive design that works on both desktop and mobile devices
+- 🎵 Create and manage playlists
+- 🔄 Shuffle playback option
+- 🌓 Dark/Light theme support
+- 🎥 Draggable and resizable video player
+- 📋 Edit playlist functionality
+- ℹ️ Information page
 
-- **⚡ Vite** – Lightning-fast bundler and dev server
-- **⚛️ React 19** – Modern UI library with concurrent features
-- **📘 TypeScript** – Static typing for scalable code
-- **🎨 Tailwind CSS** – Utility-first styling framework
-- **🧹 ESLint** – Linting with support for TypeScript and React
-- **💅 Prettier** – Code formatting with sensible defaults
-- **🔥 React Refresh** – Fast refresh support during development
+## Mobile Features
 
----
+- 🍔 Hamburger menu for navigation
+- 👆 Touch controls for video player:
+  - Drag with one finger
+  - Resize with two fingers
+- 📱 Optimized layout for small screens
+- 🎯 Easy access to YouTube controls
 
-## 📦 Installation
+## Getting Started
 
-Clone the repo and install dependencies:
+### Prerequisites
 
+- Node.js (v14 or higher)
+- npm or yarn
+- YouTube API key
+
+### Installation
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone [repository-url]
+cd YouTubeSearchMusicApp
+```
+
+2. Install dependencies:
+```bash
 npm install
-```
-````
-
----
-
-## 🛠️ Scripts
-
-| Command           | Description                       |
-| ----------------- | --------------------------------- |
-| `npm run dev`     | Start the Vite development server |
-| `npm run build`   | Build the project for production  |
-| `npm run preview` | Preview the production build      |
-| `npm run lint`    | Lint the codebase with ESLint     |
-| `npm run format`  | Format code using Prettier        |
-
----
-
-## 📁 Project Structure
-
-```
-.
-├── index.html
-├── src
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css
-├── vite.config.ts
-├── tsconfig.json
-├── .eslintrc.cjs
-├── .prettierrc
-├── package.json
+# or
+yarn install
 ```
 
----
-
-## 💄 Styling with Tailwind
-
-Tailwind is fully set up and ready.
-
----
-
-## 🧠 ESLint & Prettier
-
-### ESLint
-
-- Configured with:
-  - `@eslint/js`
-  - `@typescript-eslint`
-  - `eslint-plugin-react-hooks`
-  - `eslint-plugin-react-refresh`
-
-### Prettier
-
-Formatting rules in `.prettierrc`:
-
-```json
-{
-  "semi": false,
-  "singleQuote": true,
-  "trailingComma": "es5",
-  "printWidth": 100,
-  "tabWidth": 2
-}
+3. Create a `.env` file in the root directory and add your YouTube API key:
+```
+VITE_YOUTUBE_API_KEY=your_api_key_here
 ```
 
-Lint your code:
-
+4. Start the development server:
 ```bash
-npm run lint
+npm run dev
+# or
+yarn dev
 ```
 
-Format your code:
+5. Open your browser and navigate to `http://localhost:5173`
 
-```bash
-npm run format
-```
+## Usage
 
-## 🧱 Built With
+1. **Search for Music**
+  - Enter a song name or artist in the search bar
+  - Click search or press enter
+  - Results will be displayed below
 
-- [Vite](https://vitejs.dev)
-- [React](https://react.dev)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
+2. **Create Playlist**
+  - Click on any video to add it to your playlist
+  - Access your playlist through the navigation menu
+  - Toggle shuffle mode for random playback
 
----
+3. **Video Player**
+  - Drag the video player around the screen
+  - Resize it using two fingers on mobile
+  - Access YouTube controls directly
 
-## 📜 License
+4. **Manage Playlist**
+  - Edit your playlist through the "Edit List" option
+  - Remove videos or change their order
+  - Clear the entire playlist if needed
 
-[MIT](LICENSE)
+## Technologies Used
 
----
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- YouTube Data API
+- React YouTube
+
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
