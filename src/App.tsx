@@ -83,7 +83,16 @@ function App() {
             currentView={currentView}
           />
         ) : currentView === 'editList' ? (
-          <PlaylistEditor playlist={playlist} clearPlaylist={clearPlaylist} />
+          <PlaylistEditor
+            playlist={playlist}
+            clearPlaylist={clearPlaylist}
+            onVideoSelect={(video, index) => {
+              setSelectedVideo(video);
+              setCurrentPlaylistIndex(index);
+              setCurrentView('playlist');
+              setIsPlaying(true);
+            }}
+          />
         ) : currentView === 'info' ? (
           <Info />
         ) : (

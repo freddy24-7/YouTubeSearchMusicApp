@@ -6,9 +6,10 @@ import { usePlaylist } from '../context/PlaylistContext';
 interface PlaylistEditorProps {
   playlist: YouTubeVideo[];
   clearPlaylist: () => void;
+  onVideoSelect: (video: YouTubeVideo, index: number) => void;
 }
 
-const PlaylistEditor = ({ playlist, clearPlaylist }: PlaylistEditorProps) => {
+const PlaylistEditor = ({ playlist, clearPlaylist, onVideoSelect }: PlaylistEditorProps) => {
   const { theme } = useTheme();
   const { removeFromPlaylist } = usePlaylist();
 
@@ -62,16 +63,48 @@ const PlaylistEditor = ({ playlist, clearPlaylist }: PlaylistEditorProps) => {
                     >
                       {video.snippet.channelTitle}
                     </p>
-                    <button
-                      onClick={() => removeFromPlaylist(video.id.videoId)}
-                      className={`px-3 py-1 rounded-md text-sm font-medium ${
-                        theme === 'dark'
-                          ? 'bg-red-900 text-red-200 hover:bg-red-800'
-                          : 'bg-red-100 text-red-800 hover:bg-red-200'
-                      }`}
-                    >
-                      Remove
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => onVideoSelect(video, playlist.findIndex(v => v.id.videoId === video.id.videoId))}
+                        className={`px-3 py-1 rounded-md text-sm font-medium flex items-center gap-1 ${
+                          theme === 'dark'
+                            ? 'bg-green-900 text-green-200 hover:bg-green-800'
+                            : 'bg-green-100 text-green-800 hover:bg-green-200'
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        Play
+                      </button>
+                      <button
+                        onClick={() => removeFromPlaylist(video.id.videoId)}
+                        className={`px-3 py-1 rounded-md text-sm font-medium ${
+                          theme === 'dark'
+                            ? 'bg-red-900 text-red-200 hover:bg-red-800'
+                            : 'bg-red-100 text-red-800 hover:bg-red-200'
+                        }`}
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
