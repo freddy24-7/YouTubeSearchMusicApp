@@ -178,13 +178,20 @@ export default function VideoPlayerContainer({
           video={video}
           onEnded={handleVideoEnd}
         />
-        {/* Video metadata display for YouTube API compliance - positioned at bottom */}
+        {/* Video metadata display for YouTube API compliance - positioned above controls */}
+        {/* Positioned well above YouTube controls/logo area to ensure logo visibility in bottom-right corner */}
         <div
-          className="absolute bottom-0 left-0 right-0 text-center pointer-events-none z-10 pt-2"
+          className="absolute text-center pointer-events-none"
           style={{
+            bottom: '80px', // Position well above YouTube controls (controls ~48px + logo area ~32px)
+            left: '0',
+            right: '0',
+            zIndex: 1, // Lower than iframe to ensure it doesn't block controls or logo
             background: theme === 'dark' 
-              ? 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' 
-              : 'linear-gradient(to top, rgba(255,255,255,0.9), transparent)',
+              ? 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)' 
+              : 'linear-gradient(to top, rgba(255,255,255,0.5), transparent)',
+            paddingTop: '8px',
+            paddingBottom: '4px',
           }}
         >
           <h2

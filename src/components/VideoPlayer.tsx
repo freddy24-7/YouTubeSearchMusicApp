@@ -110,7 +110,7 @@ export function VideoPlayer({ video, onEnded }: VideoPlayerProps) {
       controls: 1,
       rel: 0,
       enablejsapi: 1,
-      modestbranding: 1,
+      // modestbranding removed to ensure YouTube logo is visible (required for API compliance)
       mute,
       origin: window.location.origin,
       playsinline: 1,
