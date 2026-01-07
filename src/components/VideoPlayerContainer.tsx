@@ -40,16 +40,31 @@ export default function VideoPlayerContainer({
     const updateSize = () => {
       const minWidth = 300;
       const minHeight = 200;
+      // Padding values: 0.5cm for mobile, 1cm for larger screens
+      const paddingMobile = 18.9; // 0.5cm in pixels (at 96 DPI)
+      const paddingLarge = 37.8; // 1cm in pixels (at 96 DPI)
+      const isLargeScreen = window.innerWidth >= 640;
+      const padding = isLargeScreen ? paddingLarge : paddingMobile;
+      const paddingTotal = padding * 2; // left + right or top + bottom
 
       if (window.innerWidth >= 1024) {
-        // Large screens: bigger fixed player size (16:9) - already exceeds minimum
-        setSize({ width: '1400px', height: '788px' });
+        // Large screens: bigger fixed player size (16:9) but constrained by padding
+        const maxWidth = window.innerWidth - paddingTotal;
+        const maxHeight = window.innerHeight - 96 - paddingTotal; // 96px for header (6rem)
+        const playerWidth = Math.min(1400, maxWidth);
+        const playerHeight = Math.min(788, maxHeight, playerWidth * 9 / 16);
+        setSize({ width: `${playerWidth}px`, height: `${playerHeight}px` });
       } else if (window.innerWidth >= 640) {
-        // Medium screens: slightly smaller fixed size - already exceeds minimum
-        setSize({ width: '1000px', height: '563px' });
+        // Medium screens: slightly smaller fixed size but constrained by padding
+        const maxWidth = window.innerWidth - paddingTotal;
+        const maxHeight = window.innerHeight - 96 - paddingTotal;
+        const playerWidth = Math.min(1000, maxWidth);
+        const playerHeight = Math.min(563, maxHeight, playerWidth * 9 / 16);
+        setSize({ width: `${playerWidth}px`, height: `${playerHeight}px` });
       } else {
-        // Small screens: responsive to viewport width with minimum size enforcement
-        const calculatedWidth = Math.max(minWidth, window.innerWidth * 0.9);
+        // Small screens: responsive to viewport width with minimum size enforcement and padding
+        const availableWidth = window.innerWidth - paddingTotal;
+        const calculatedWidth = Math.max(minWidth, availableWidth * 0.9);
         const calculatedHeight = Math.max(minHeight, calculatedWidth * 9 / 16);
         setSize({
           width: `${calculatedWidth}px`,
@@ -139,7 +154,7 @@ export default function VideoPlayerContainer({
 
   return (
     <div
-      className="relative h-[calc(100vh-6rem)] py-8 sm:py-0"
+      className="relative h-[calc(100vh-6rem)] p-[0.5cm] sm:p-[1cm]"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

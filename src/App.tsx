@@ -65,7 +65,7 @@ function App() {
         isPlaying={isPlaying}
       />
       <main
-        className={`min-h-screen p-8 pt-24 ${
+        className={`h-screen p-8 pt-24 overflow-hidden ${
           theme === 'dark'
             ? 'bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900'
             : 'bg-gradient-to-br from-gray-100 via-white to-gray-100'
