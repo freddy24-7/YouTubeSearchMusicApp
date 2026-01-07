@@ -11,7 +11,7 @@ interface VideoPlayerContainerProps {
   setSelectedVideo: (video: YouTubeVideo | null) => void;
   setIsPlaying: (playing: boolean) => void;
   isShuffleEnabled: boolean;
-  currentView: 'search' | 'playlist' | 'editList' | 'info';
+  currentView: 'search' | 'playlist' | 'editList' | 'info' | 'privacy';
 }
 
 export default function VideoPlayerContainer({

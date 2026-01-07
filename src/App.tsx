@@ -6,9 +6,10 @@ import SearchArea from './components/SearchArea';
 import VideoPlayerContainer from './components/VideoPlayerContainer';
 import PlaylistEditor from './components/PlayListEditor';
 import Info from './components/Info';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import { YouTubeVideo } from './services/youtubeApi';
 
-type View = 'search' | 'playlist' | 'editList' | 'info';
+type View = 'search' | 'playlist' | 'editList' | 'info' | 'privacy';
 
 function App() {
   const { theme } = useTheme();
@@ -53,6 +54,12 @@ function App() {
     setCurrentView('info');
   };
 
+  const handlePrivacyClick = () => {
+    setIsPlaying(false);
+    setSelectedVideo(null);
+    setCurrentView('privacy');
+  };
+
   return (
     <>
       <NavBar
@@ -60,12 +67,13 @@ function App() {
         onPlaylistClick={handlePlaylistClick}
         onEditListClick={handleEditListClick}
         onInfoClick={handleInfoClick}
+        onPrivacyClick={handlePrivacyClick}
         isShuffleEnabled={isShuffleEnabled}
         onShuffleToggle={() => setIsShuffleEnabled(!isShuffleEnabled)}
         isPlaying={isPlaying}
       />
       <main
-        className={`h-screen p-8 pt-24 overflow-hidden ${
+        className={`min-h-screen p-8 pt-24 overflow-y-auto ${
           theme === 'dark'
             ? 'bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900'
             : 'bg-gradient-to-br from-gray-100 via-white to-gray-100'
@@ -95,6 +103,8 @@ function App() {
           />
         ) : currentView === 'info' ? (
           <Info />
+        ) : currentView === 'privacy' ? (
+          <PrivacyPolicy />
         ) : (
           <SearchArea
             videos={videos}
