@@ -1,6 +1,7 @@
 import { VideoPlayer } from './VideoPlayer';
 import { YouTubeVideo } from '../services/youtubeApi';
 import React, { useState, useRef, useEffect } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 interface VideoPlayerContainerProps {
   video: YouTubeVideo;
@@ -23,6 +24,7 @@ export default function VideoPlayerContainer({
                                                isShuffleEnabled,
                                                currentView,
                                              }: VideoPlayerContainerProps) {
+  const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({
@@ -36,15 +38,23 @@ export default function VideoPlayerContainer({
 
   useEffect(() => {
     const updateSize = () => {
+      const minWidth = 300;
+      const minHeight = 200;
+
       if (window.innerWidth >= 1024) {
-        // Large screens: bigger fixed player size (16:9)
+        // Large screens: bigger fixed player size (16:9) - already exceeds minimum
         setSize({ width: '1400px', height: '788px' });
       } else if (window.innerWidth >= 640) {
-        // Medium screens: slightly smaller fixed size
+        // Medium screens: slightly smaller fixed size - already exceeds minimum
         setSize({ width: '1000px', height: '563px' });
       } else {
-        // Small screens: responsive to viewport width
-        setSize({ width: '90vw', height: 'calc(90vw * 9 / 16)' });
+        // Small screens: responsive to viewport width with minimum size enforcement
+        const calculatedWidth = Math.max(minWidth, window.innerWidth * 0.9);
+        const calculatedHeight = Math.max(minHeight, calculatedWidth * 9 / 16);
+        setSize({
+          width: `${calculatedWidth}px`,
+          height: `${calculatedHeight}px`,
+        });
       }
     };
 
@@ -145,12 +155,36 @@ export default function VideoPlayerContainer({
           height: size.height,
           transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
           touchAction: 'none',
+          display: 'block',
+          visibility: 'visible',
         }}
       >
         <VideoPlayer
           video={video}
           onEnded={handleVideoEnd}
         />
+        {/* Video metadata display for YouTube API compliance - positioned at bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 text-center pointer-events-none z-10 pt-2"
+          style={{
+            background: theme === 'dark' 
+              ? 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' 
+              : 'linear-gradient(to top, rgba(255,255,255,0.9), transparent)',
+          }}
+        >
+          <h2
+            className={`text-lg font-bold mb-1 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}
+          >
+            {video.snippet.title}
+          </h2>
+          <p
+            className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}
+          >
+            {video.snippet.channelTitle}
+          </p>
+        </div>
       </div>
     </div>
   );

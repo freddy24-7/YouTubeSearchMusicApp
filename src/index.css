@@ -1,11 +1,13 @@
 @import 'tailwindcss';
 
+/* YouTube API Compliance: No overlays or blocking of YouTube controls/logo */
 .video-responsive-container {
   max-width: 1400px; /* Desired max size */
   margin: 0 auto;    /* Center horizontally */
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9; /* Maintain 16:9 ratio */
+  /* Ensures YouTube controls remain accessible */
 }
 
 .youtube-video {
@@ -13,8 +15,10 @@
   height: 100%;
 }
 
+/* YouTube API Compliance: No pointer-events restrictions - controls fully accessible */
 .youtube-video iframe {
   width: 100%;
   height: 100%;
   display: block;
+  /* No pointer-events restrictions - controls fully accessible */
 }

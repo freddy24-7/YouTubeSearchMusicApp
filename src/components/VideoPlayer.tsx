@@ -1,5 +1,5 @@
 import { YouTubeVideo } from '../services/youtubeApi';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import YouTube, { YouTubePlayer, YouTubeProps } from 'react-youtube';
 
 interface VideoPlayerProps {
@@ -10,6 +10,13 @@ interface VideoPlayerProps {
 export function VideoPlayer({ video, onEnded }: VideoPlayerProps) {
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [mute, setMute] = useState(0);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
+
+  // Reset player ready state when video changes
+  useEffect(() => {
+    setIsPlayerReady(false);
+    playerRef.current = null;
+  }, [video.id.videoId]);
 
   // Determine the mute value based on screen size
   useEffect(() => {
@@ -29,8 +36,61 @@ export function VideoPlayer({ video, onEnded }: VideoPlayerProps) {
     };
   }, []);
 
+  // Helper function to pause video if playing (YouTube API compliance)
+  const pauseIfPlaying = useCallback(() => {
+    if (!playerRef.current) return;
+    
+    playerRef.current.getPlayerState().then((state: number) => {
+      // State 1 = playing, state 2 = paused
+      if (state === 1) {
+        // Only pause if currently playing
+        playerRef.current?.pauseVideo();
+      }
+    }).catch(() => {
+      // Fallback: pause directly if getPlayerState fails
+      playerRef.current?.pauseVideo();
+    });
+  }, []);
+
+  // Auto-pause when tab/window becomes hidden (YouTube API compliance)
+  // This prevents background music playback when user switches tabs or minimizes window
+  useEffect(() => {
+    if (!isPlayerReady) return;
+
+    const handleVisibilityChange = () => {
+      // Check both document.hidden and document.visibilityState for maximum compatibility
+      if (document.hidden || document.visibilityState === 'hidden') {
+        // Immediately pause the video when tab becomes hidden
+        if (playerRef.current) {
+          playerRef.current.pauseVideo();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [isPlayerReady]);
+
+  // Auto-pause when window loses focus (e.g., clicking another tab/app) - YouTube API compliance
+  useEffect(() => {
+    if (!isPlayerReady) return;
+
+    const handleWindowBlur = () => {
+      // Pause when window loses focus to prevent background music playback
+      pauseIfPlaying();
+    };
+
+    window.addEventListener('blur', handleWindowBlur);
+    return () => {
+      window.removeEventListener('blur', handleWindowBlur);
+    };
+  }, [isPlayerReady, pauseIfPlaying]);
+
   const onReady: YouTubeProps['onReady'] = (event) => {
     playerRef.current = event.target;
+    setIsPlayerReady(true);
     if (playerRef.current) {
       playerRef.current.playVideo();
     }
