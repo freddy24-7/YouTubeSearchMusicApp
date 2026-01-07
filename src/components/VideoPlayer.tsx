@@ -43,33 +43,29 @@ export function VideoPlayer({ video, onEnded }: VideoPlayerProps) {
   };
 
   const opts: YouTubeProps['opts'] = {
+    height: '100%',
+    width: '100%',
     playerVars: {
       autoplay: 1,
       controls: 1,
       rel: 0,
       enablejsapi: 1,
       modestbranding: 1,
-      mute: mute,
+      mute,
       origin: window.location.origin,
       playsinline: 1,
     },
   };
 
   return (
-    <div className="w-full pointer-events-none">
-      <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
-        <div className="absolute top-0 left-0 w-full h-full rounded-lg overflow-hidden">
-          <div className="pointer-events-auto">
-            <YouTube
-              videoId={video.id.videoId}
-              opts={opts}
-              onReady={onReady}
-              onEnd={onEnd}
-              className="w-full h-full"
-            />
-          </div>
-        </div>
-      </div>
+    <div className="video-responsive-container">
+      <YouTube
+        videoId={video.id.videoId}
+        opts={opts}
+        onReady={onReady}
+        onEnd={onEnd}
+        className="youtube-video"
+      />
     </div>
   );
 }

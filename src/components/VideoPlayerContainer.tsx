@@ -1,6 +1,6 @@
 import { VideoPlayer } from './VideoPlayer';
 import { YouTubeVideo } from '../services/youtubeApi';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface VideoPlayerContainerProps {
   video: YouTubeVideo;
@@ -25,11 +25,33 @@ export default function VideoPlayerContainer({
                                              }: VideoPlayerContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [size, setSize] = useState({ width: '100%', height: 'auto' });
+  const [size, setSize] = useState({
+    width: '90vw',
+    height: 'calc(90vw * 9 / 16)',
+  });
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
   const [initialTouch, setInitialTouch] = useState({ x: 0, y: 0 });
   const [initialSize, setInitialSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (window.innerWidth >= 1024) {
+        // Large screens: bigger fixed player size (16:9)
+        setSize({ width: '1400px', height: '788px' });
+      } else if (window.innerWidth >= 640) {
+        // Medium screens: slightly smaller fixed size
+        setSize({ width: '1000px', height: '563px' });
+      } else {
+        // Small screens: responsive to viewport width
+        setSize({ width: '90vw', height: 'calc(90vw * 9 / 16)' });
+      }
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     e.preventDefault(); // Prevent scrolling while dragging
@@ -107,15 +129,21 @@ export default function VideoPlayerContainer({
 
   return (
     <div
-      className="h-[calc(100vh-6rem)] flex items-center justify-center py-8 sm:py-0"
+      className="relative h-[calc(100vh-6rem)] py-8 sm:py-0"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className="relative w-[66vw] sm:w-[800px] h-[calc(66vw*9/16)] sm:h-[450px]"
+        ref={containerRef}
+        className="relative"
         style={{
-          transform: `translate(${position.x}px, ${position.y}px) scale(${size})`,
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          width: size.width,
+          height: size.height,
+          transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
           touchAction: 'none',
         }}
       >
